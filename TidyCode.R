@@ -5,14 +5,24 @@
 # 1) Set up:
 
 #Packages
-install.packages(c("tidyverse", "sp", "rgdal", "raster", "sf", "lwgeom", "terra", "stars", "exactextractr", "readr", "readxl"))
-library(tidyverse, readr)
+install.packages("tidyverse", "dplyr")
+library(tidyverse, dplyr)
+library(dplyr)
 
 #Read in data
-dat<- read.csv("./Data/Clean/Location_ID_StarlingChicks.csv", header=T, sep = ",", dec = "." ,stringsAsFactors = TRUE)
-attach(dat)
-
+detach(alldat)
+alldat<- read.csv("./Data/Raw/SamplingData.csv", header=T, sep = ",", dec = "." ,stringsAsFactors = TRUE)
+attach(alldat)
+Location<- read.csv("./Data/Raw/NestLocations.csv", header=T, sep = ",", dec = "." ,stringsAsFactors = TRUE)
+attach(alldat)
+attach(Location)
 
 # 2) Tidy:
+
+#create datasets with selected columns 1) ("Year", "Nest ID") 2) "NestID", "Latitude", "Longitude").
+#1
+Year_ID = alldat%>% select(Year, Nest.ID)
+#2
+Location_ID = Location%>% select(Latitude, Longitude, NestID)
 
 
