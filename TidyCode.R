@@ -2,20 +2,17 @@
 # Project Title: UCT Starling Project
 
 
-#-Set up-
+# 1) Set up:
 
 #Packages
-install.packages(c("tidyverse", "sp", "rgdal", "raster", "sf", "lwgeom", "terra", "stars", "exactextractr"))
+install.packages(c("tidyverse", "sp", "rgdal", "raster", "sf", "lwgeom", "terra", "stars", "exactextractr", "readr", "readxl"))
+library(tidyverse, readr)
 
-#Directory
-#Change to where the files are stored
-setwd("C:/Users/Sabrina/Desktop/STUDIES/GIS Project and Tidy Data/Data/Clean")
-getwd()
-
-dat = read.csv("Location_ID_StarlingChicks.csv", header=T, sep = ",", dec = ". ,stringsAsFactors = TRUE)
-dat
+#Read in data
+dat<- read.csv("./Data/Clean/Location_ID_StarlingChicks.csv", header=T, sep = ",", dec = "." ,stringsAsFactors = TRUE)
 attach(dat)
-head(dat)
 
-#Code
+
+# 2) Tidy:
+
 
