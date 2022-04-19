@@ -33,7 +33,7 @@ Avemass = Joined %>% group_by(Year)%>%summarize(`Average Mass`= mean(Mass,na.rm=
 #Plotting 1) the number of tagged chicks per year, and 2) the average chick mass per year
 
 #1
-plot_avemass = plot(Avemass$Year, Avemass$`Average Mass`, xlab = "Year", ylab = "Average Chick Mass (g)", main = "Graph showing average mass of Starling chicks per year (2017 - 2022)")
+plot(Joined$Year, Joined$Mass, xlab = "Year", ylab = "Chick Mass (g)", main = "Graph showing mass of Starling chicks per year (2017 - 2022)")
 
 #2
 plot_count = plot(Avemass$Year, Avemass$Count, xlab = "Year", ylab = "Number of chicks tagged", main = "Graph showing number of tagged Starling chicks per year (2017 - 2022)")
