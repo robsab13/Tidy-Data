@@ -13,4 +13,4 @@ Script - "TidyCode.R"
 
 Instructions: Code can be found and fun directly from "TidyCode.R" to produce the plots and create the same datasets.
 
-To be continued: GIS elements to be comleted by  Monday 25th April 2022.
+GIS elements comleted on Monday 25th April 2022. See RMarkdown and html file added.
