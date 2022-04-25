@@ -4,7 +4,7 @@
 # 1) Set up:
 
 #Packages
-install.packages("tidyverse", "dplyr")
+#install.packages("tidyverse", "dplyr")
 library(tidyverse)
 library(dplyr)
 
@@ -45,7 +45,7 @@ Avemass = Joined0 %>% group_by(Year)%>%summarize(`Average Mass`= mean(Mass,na.rm
 
 plot_count = plot(Avemass$Year, Avemass$Count, xlab = "Year", ylab = "Number of chicks tagged", main = "Graph showing number of tagged Starling chicks per year (2017 - 2021)")
 
-# 4) Testing Significance
+# 4) Testing Significance of average chick mass and year
 
 #including 2022 - significance
 m1<-aov(Joined$Mass~Joined$Year)
@@ -56,3 +56,58 @@ TukeyHSD(m1)
 m2<-aov(Joined0$Mass~Joined0$Year)
 summary(m2)
 TukeyHSD(m2)
+
+#--------MAPPING:
+
+# Packages:
+library(sf)
+# install.packages("rosm")
+# install.packages("ggspatial")
+library(rosm)
+library(ggspatial)
+
+# Optimizing data:
+GISDataset <- na.omit(Joined0)
+write.csv(GISDataset,"./Data/Clean/GISDataset.csv", row.names = TRUE)#csv of dataset
+#I convert the csv to .shp using https://mygeodata.cloud/converter/csv-to-shp
+dat <- st_read("./Data/SHP/GISDataset-point.shp") #read in .shp
+dat$Mass = NULL # rm mass column
+
+# select only year 2019 and 2021
+split_dat <- c("2019", "2021")
+dat <- dat[which(dat$Year %in% split_dat),]
+
+#more specific:
+split_dat_2019 = c("2019")  #pre covid data
+dat2019 <- dat[which(dat$Year %in% split_dat_2019),]
+split_dat_2021 = c("2021")  #during covid data
+dat2021 <- dat[which(dat$Year %in% split_dat_2021),]
+
+#remove dupliactes 2019
+dat2019 = dat2019[!duplicated(dat2019$NestID),]
+#remove dupliactes 2021
+dat2021 = dat2021[!duplicated(dat2021$NestID),]
+
+
+#plot
+
+#ggplot() + geom_sf(data=dat, aes(fill = "Year"))
+#ggplot() + annotation_map_tile(type = "osm", progress = "none") + geom_sf(data=dat)
+
+#Interactive map
+#install.packages("leaflet")
+#installed.packages("htmltools")
+library(leaflet)
+library(htmltools)
+leaflet() %>%
+  # Add default OpenStreetMap map tiles
+  addTiles(group = "Default") %>%  
+  # Add our points
+  addCircleMarkers(data = dat2019,
+                   group = "Year",
+                   radius = 4, 
+                   color = "blue") %>%
+  addCircleMarkers(data = dat2021,
+                 group = "Year",
+                 radius = 2, 
+                 color = "red")
